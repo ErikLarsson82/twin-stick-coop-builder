@@ -42,23 +42,24 @@ function init() {
 }
 
 function findName(name, world) {
-    var body = world.m_bodyList
-    var counter = 0
-    while (body.name !== name && counter < 100) {
-        counter++
+    /*var body = world.m_bodyList
+    while (body && body.name !== name) {
         body = body.m_next
     }
-    if (counter > 90) {
-        console.error('To many stuff')
+    return body  */
+
+    for (var bb = world.m_bodyList; bb; bb = bb.m_next){
+        if (bb.name === name) return bb
     }
-    return body  
+    return null
 }
 
 function gameTick() {
     world.Step(delta, 4, 4);
 
     if (buttonState.x) {
-        const playerBody = findName("player1", world)
+        const playerBody = findName("player", world)
+        debugger
         playerBody.ApplyImpulse(new b2Vec2(0, 0.2), playerBody.GetPosition())
     }
 
